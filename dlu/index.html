@@ -1,0 +1,123 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link href="../index.css" rel="stylesheet">   
+	</head>
+	<body>
+		<div id="root">
+			<div class="container">
+				<nav id="navbar" class="px-1 py-1 fixed-top navbar">
+					<div class="col-sm-6">
+						<a class="navbar-header" href="/">
+							<a class="d-flex align-items-center navbar-brand">
+								<img src="../img/logo.png" alt="Kidney Precision Medicine Project Applications" class="logo">
+								<span class="ml-2 text-dark">KPMP Applications: Data Lake Uploader</span>
+							</a>
+						</a>
+					</div>
+				</nav>
+			</div>
+			<div class="container pb-3 pt-3">
+				<section class="row">
+					<div class="col-12">
+						<h3> Overview</h3>
+						The first application we needed to create was one that would allow us to collect the data that members of our consortium generated. The application is hosted at <a href="http://upload.kpmp.org">http://upload.kpmp.org</a>. It is only available to a small subset of the consortium. The code for this application stack is at <a href="http://github.com/KPMP">http://github.com/KPMP</a> in the following repositories: stateManagerService, eridanus-data, zipWorker.
+					</div>			
+				</section>
+				<section class="row pt-3">
+					<div class="col-12 pb-2">
+						<h3>Repositories</h3>
+						List of the repositories required to run this application.
+					</div>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col">Repository</th>
+								<th scop="col">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><a href="https://github.com/KPMP/orion-data">orion-data</a></td>
+								<td>This is the service layer for the Data Lake Uploader (and is also the service layer for the Data Manager Dashboard).</td>
+							</tr>
+							<tr>
+								<td><a href="https://github.com/KPMP/orion-web">orion-web</a></td>
+								<td>This is the GUI layer for the Data Lake Uploader.</td>
+							</tr>
+							<tr>
+								<td><a href="https://github.com/KPMP/heavens-docker">heavens-docker</a></td>
+								<td>This repository holds all of the docker containers and docker-compose scripts for running our applications.</td>
+							</tr>
+							<tr>
+								<td><a href="https://github.com/KPMP/stateManagerService">stateManagerService</a></td>
+								<td>This service is used to manage the state of packages as they travel through the Data Lake to the Knowledge Environment.</tr>
+							</tr>
+							<tr>
+								<td><a href="https://github.com/KPMP/eridanus-data">eridanus-data</a></td>
+								<td>This service is used to notify our staff of events within the system.</td>
+							</tr>
+							<tr>
+								<td><a href="https://github.com/KPMP/zip-worker">zipWorker</a></td>
+								<td>This service is used to zip our package files for download in the Data Lake Uploader.</td>
+							</tr>
+							<tr>
+								<td><a href="https://github.com/KPMP/norma">norma</a></td>
+								<td>Tool designed to read in a Google Spreadsheet to generate our dynamic form DTDs.</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+				<section class="row pt-3">
+					<div class="col-12"><h3>Data Stores</h3></div>
+					<div class="col-12">
+						<h5>MongoDB</h5>
+						<div class="row pt-2">
+							<div class="col-12">
+								<h6>dataLake</h6>
+								<table class="table table-striped">
+									<thead>
+										<tr><th>Collection Name</th>
+										<th>Description</th></tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>dynamicForms</td>
+											<td>Collection to hold the DTDs for the dynamic forms used on the upload form. You can see the latest dtds in <a href="http://github.com/KPMP/norma/dtds">the dtds folder</a> inside the norma project.</td>
+										</tr>
+										<tr>
+											<td>packageTypeIcons</td>
+											<td>Static collection used to group package types together into larger categories. An export of this data exists in <a href="http://github.com/KPMP/orion-data/data/packageTypeIcons.json">orion-data/data/packageTypeIcons.json.</a></td>
+										</tr>
+										<tr>
+											<td>packages</td>
+											<td>Collection that contains the metadata for packages uploaded to the Data Lake. There is an object reference (via the submitter attribute) to entries in the users collection. A minimal example json structure exists in <a href="http://github.com/KPMP/orion-data/data/packages-template.json">orion-data/data/packages-template.json. The application is designed to allow for any number of additional attributes.</td>
+										</tr>
+										<tr>
+											<td>releases</td>
+											<td>Collection used to populate our Help page. An example json structure exists in <a href="http://github.com/KPMP/orion-data/data/releases-template.json">orion-data/data/releases-template.json.</td>
+										</tr>
+										<tr>
+											<td>state</td>
+											<td>Collection of all states a package has passed through. An example json structure exists in <a href="http://github.com/KPMP/orion-data/data/state-template.json">orion-data/data/state-template.json.</td>
+										</tr>
+										<tr>
+											<td>users</td>
+											<td>Collection of users who have uploaded packages to the Data Lake. An examplejson structure exists in <a href="http://github.com/KPMP/orion-data/data/users-template.json">orion-data/data/users-template.json. The "shibId" attribute is the Shibboleth Id we capture when the user authenticates.</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="col-12">
+						<h5>File System</h5>
+						<div>
+							The application can be configured to point to any location on disk for the file system. Inside that directory, when a user uploads a file the system will create a file called "package_&lt;unique_id&gt;" where the Unique Id is generated with Java's UUID functionality.
+						</div>
+					</div>
+				</section>
+			</div>
+		<div id="footer" class="fixed-bottom px-1 py-1"><a class="text-light small" href="https://kpmp.org" target="_blank" rel="noopener noreferrer">© Kidney Precision Medicine Project</a></div>
+	</body>
+</html>
