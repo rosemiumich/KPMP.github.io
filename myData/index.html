@@ -62,7 +62,7 @@
 						<h5>MongoDB</h5>
 						<div class="row pt-2">
 							<div class="col-12">
-								<h6>INSERT_MONGODB_NAME</h6>
+								<h6>knowledgeEnvironment</h6>
 								<table class="table table-striped">
 									<thead>
 										<tr><th>Collection Name</th>
@@ -70,8 +70,12 @@
 									</thead>
 									<tbody>
 										<tr>
-											<td>INSERT_COLLECTION_NAME (slides? participants?)</td>
-											<td>A list of cases with viewable slides, each with a contained array of slide images belonging to the case.  The slide is the principal object in this collection.  For an example document in this collection with all available data attributes, see <a href="http://github.com/KPMP/orion-data/data/packageTypeIcons.json">orion-data/data/packageTypeIcons.json.</a></td>
+											<td>patients</td>
+											<td>A list of cases with viewable slides, each with a contained array of slide images belonging to the case.  Slides have a `stain` property, which is a mongodb dbref object to the `stains` collection.  The items in the slides array are the principal objects in this document.  For an example document in this collection with all available data attributes, see <a href="http://github.com/KPMP/cassiopeia-data/data/samples/patients.json">cassiopeia-data/data/samples/patients.json.</a></td>
+										</tr>
+										<tr>
+											<td>stains</td>
+											<td>A list of whole slide image stains, each with a `type`, `title`, and `description`.  For an example document in this collection, see <a href="http://github.com/KPMP/cassiopeia-data/data/samples/stains.json">cassiopeia-data/data/samples/stains.json.</a></td>
 										</tr>
 									</tbody>
 								</table>
