@@ -1,0 +1,95 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link href="../index.css" rel="stylesheet">   
+	</head>
+	<body>
+		<div id="root">
+			<div class="container">
+				<nav id="navbar" class="px-1 py-1 fixed-top navbar">
+					<div class="col-sm-6">
+						<a class="navbar-header" href="/">
+							<a class="d-flex align-items-center navbar-brand">
+								<img src="../img/logo.png" alt="Kidney Precision Medicine Project Applications" class="logo">
+								<span class="ml-2 text-dark">KPMP Applications: Data Lake Uploader</span>
+							</a>
+						</a>
+					</div>
+				</nav>
+			</div>
+			<div class="container pb-3 pt-3">
+				<section class="row">
+					<div class="col-12">
+						<h3> Overview</h3>
+                                                The <b>My Data</b> project is a web-based portal for KPMP biopsy participants to view whole slide images from their biopsy.  Users begin with a walk-through of the biopsy, slide prep, and staining process that leads to the images they are about to view.  Users  then choose images to view by selecting their KPMP case ID and then panning, zooming, and saving images of the slides in our web viewer.  The whole slide image web viewer is based on the <a href="https://openseadragon.github.io/" target="_blank">OpenSeadragon</a> library and consumes the <a href="https://openseadragon.github.io/examples/creating-zooming-images/" target="_blank">Deep Zoom Image (DZI)</a> pyramidal image format.  In most ways, the My Data project is identical to early releases of the <a href="https://kpmp.github.io/dpr">Digital Pathology Repository (DPR)</a>.
+					</div>			
+				</section>
+				<section class="row pt-3">
+					<div class="col-12 pb-2">
+						<h3>Repositories</h3>
+						List of the repositories required to run this application.
+					</div>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col">Repository</th>
+								<th scope="col">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><a href="https://github.com/KPMP/cassiopeia-data">cassiopeia-data</a></td>
+								<td>This is the service layer for the My Data project.</td>
+							</tr>
+							<tr>
+								<td><a href="https://github.com/KPMP/cassiopeia-web">cassiopeia-web</a></td>
+								<td>This is the GUI layer for the My Data project.</td>
+							</tr>
+							<tr>
+								<td><a href="https://github.com/KPMP/heavens-docker">heavens-docker</a></td>
+								<td>This repository holds all of the docker containers and docker-compose scripts for running our applications.</td>
+							</tr>
+							<tr>
+								<td><a href="https://github.com/KPMP/wsi-worker">wsi-worker</a></td>
+								<td>This is the dockerized script to convert an SVS (our preferred WSI format) into assets for the My Data and DPR runtimes, including database updates and DZI pyramidal image output.</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+				<section class="row pt-3">
+					<div class="col-12"><h3>Data Stores</h3></div>
+					<div class="col-12">
+						<h5>MongoDB</h5>
+						<div class="row pt-2">
+							<div class="col-12">
+								<h6>knowledgeEnvironment</h6>
+								<table class="table table-striped">
+									<thead>
+										<tr><th>Collection Name</th>
+										<th>Description</th></tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>patients</td>
+											<td>A list of cases with viewable slides, each with a contained array of slide images belonging to the case.  Slides have a `stain` property, which is a mongodb dbref object to the `stains` collection.  The items in the slides array are the principal objects in this document.  For an example document in this collection with all available data attributes, see <a href="http://github.com/KPMP/cassiopeia-data/data/samples/patients.json">cassiopeia-data/data/samples/patients.json.</a></td>
+										</tr>
+										<tr>
+											<td>stains</td>
+											<td>A list of whole slide image stains, each with a `type`, `title`, and `description`.  For an example document in this collection, see <a href="http://github.com/KPMP/cassiopeia-data/data/samples/stains.json">cassiopeia-data/data/samples/stains.json.</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="col-12">
+						<h5>File System</h5>
+						<div>
+                                                  The application can be configured to point to any location on disk for the file system. Inside that directory, the `dataLake` and `deepZoomImages` directories are used to serve DZI image pyramids to users.  The `wsi-worker` script is responsible for creating the web-ready assets for storage in the `dataLake` directory and symlinking them by file UUID into the `deepZoomImages` folder for web access.  For more information on this storage and linking scheme, see <a href="https://github.com/KPMP/wsi-worker/blob/develop/README.md" target="_blank">the wsi-worker README.md</a>.
+						</div>
+					</div>
+				</section>
+			</div>
+		<div id="footer" class="fixed-bottom px-1 py-1"><a class="text-light small" href="https://kpmp.org" target="_blank" rel="noopener noreferrer">© Kidney Precision Medicine Project</a></div>
+	</body>
+</html>
